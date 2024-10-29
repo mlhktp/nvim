@@ -19,7 +19,6 @@ local function get_cowsay_fortune()
   local handle = io.popen([[ fortune -s -o | cowsay -f "$(printf %s\\n /usr/share/cowsay/cows/*.cow | shuf -n1)" ]])
   local result = handle:read("*a")
   handle:close()
-  
   -- Split the output into lines
   local lines = {}
   for line in result:gmatch("[^\r\n]+") do
@@ -48,40 +47,26 @@ M.nvdash = {
         hl = "NvDashFooter",
         no_gap = true,
       },
-
       { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
-    },
+      { txt = [[ __    __   __       __  __   __  __   ______  ______ ]], hl = "NvDashFooter", no_gap = true, rep = false },
+      { txt = [[/\ "-./  \ /\ \     /\ \_\ \ /\ \/ /  /\__  _\/\  == \]], hl = "NvDashFooter", no_gap = true, rep = false },
+      { txt = [[\ \ \-./\ \\ \ \____\ \  __ \\ \  _"-.\/_/\ \/\ \  _-/]], hl = "NvDashFooter", no_gap = true, rep = false },
+      { txt = [[ \ \_\ \ \_\\ \_____\\ \_\ \_\\ \_\ \_\  \ \_\ \ \_\  ]], hl = "NvDashFooter", no_gap = true, rep = false },
+      { txt = [[  \/_/  \/_/ \/_____/ \/_/\/_/ \/_/\/_/   \/_/  \/_/  ]], hl = "NvDashFooter", no_gap = true, rep = false },
+      { txt = [[                                                      ]], hl = "NvDashFooter", no_gap = true, rep = false },
+      { txt = [[       Welcome to @mlhktp's Neovim configuration!     ]], hl = "NvDashFooter", no_gap = true, rep = false },
+   },
   header = function()
-    local header_lines = {
-      [[ __    __   __       __  __   __  __   ______  ______ ]],
-      [[/\ "-./  \ /\ \     /\ \_\ \ /\ \/ /  /\__  _\/\  == \]],
-      [[\ \ \-./\ \\ \ \____\ \  __ \\ \  _"-.\/_/\ \/\ \  _-/]],
-      [[ \ \_\ \ \_\\ \_____\\ \_\ \_\\ \_\ \_\  \ \_\ \ \_\  ]],
-      [[  \/_/  \/_/ \/_____/ \/_/\/_/ \/_/\/_/   \/_/  \/_/  ]],
-      [[                                                      ]],
-      [[       Welcome to @mlhktp's Neovim configuration!     ]],
-      [[                                                      ]]
-    }
+    local header_lines = {}
     -- Append cowsay fortune lines
     for _, line in ipairs(get_cowsay_fortune()) do
       table.insert(header_lines, line)
     end
-    table.insert(header_lines, [[                                                      ]])
+    table.insert(header_lines, [[]])
+    table.insert(header_lines, [[]])
+    table.insert(header_lines, [[]])
     return header_lines
   end,
-   -- header = {
-  --   [[_/\\\\____________/\\\\___/\\\_______________/\\\________/\\\___/\\\________/\\\___/\\\\\\\\\\\\\\\___/\\\\\\\\\\\\\___       ]],
-  --   [[_\/\\\\\\________/\\\\\\__\/\\\______________\/\\\_______\/\\\__\/\\\_____/\\\//___\///////\\\/////___\/\\\/////////\\\_      ]],
-  --   [[ _\/\\\//\\\____/\\\//\\\__\/\\\______________\/\\\_______\/\\\__\/\\\__/\\\//____________\/\\\________\/\\\_______\/\\\_     ]],
-  --   [[  _\/\\\\///\\\/\\\/_\/\\\__\/\\\______________\/\\\\\\\\\\\\\\\__\/\\\\\\//\\\____________\/\\\________\/\\\\\\\\\\\\\/__    ]],
-  --   [[   _\/\\\__\///\\\/___\/\\\__\/\\\______________\/\\\/////////\\\__\/\\\//_\//\\\___________\/\\\________\/\\\/////////____   ]],
-  --   [[    _\/\\\____\///_____\/\\\__\/\\\______________\/\\\_______\/\\\__\/\\\____\//\\\__________\/\\\________\/\\\_____________  ]],
-  --   [[     _\/\\\_____________\/\\\__\/\\\______________\/\\\_______\/\\\__\/\\\_____\//\\\_________\/\\\________\/\\\_____________ ]],
-  --   [[      _\/\\\_____________\/\\\__\/\\\\\\\\\\\\\\\__\/\\\_______\/\\\__\/\\\______\//\\\________\/\\\________\/\\\____________ ]],
-  --   [[       _\///______________\///___\///////////////___\///________\///___\///________\///_________\///_________\///____________ ]],
-  --   [[                                                                                                                              ]],
-  --   [[                                            Welcome to @mlhktp's Neovim configuration!]]
-  -- },
 }
 
 -- Configure the statusline
@@ -93,19 +78,4 @@ M.ui = {
     },
   },
 }
- -- M.ui = {
- --   statusline = {
- --     theme = "default", 
- --     separator_style = "default",
- --     order = { "mode", "f", "git", "%=", "lsp_msg", "%=", "lsp", "cwd", "xyz", "abc" },
- --     modules = {
- --       abc = function()
- --         return "hi"
- --       end,
- --
- --       xyz =  "hi",
- --       f = "%F"
- --     }
- --   },
- -- }
 return M
