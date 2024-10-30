@@ -33,4 +33,9 @@ end
 
 map({ "n", "i", "v" }, "<leader>mpk", "<cmd> PetsKillAll <cr>", { desc = "Kill All Pets" })
 
+map({ "n", "i", "v" }, "<leader>gp", "<cmd> Gitsigns preview_hunk <cr>", { desc = "Gitsigns Preview Hunk" })
+map({ "n", "i", "v" }, "<leader>gi", "<cmd> Gitsigns preview_hunk_inline <cr>", { desc = "Gitsigns Preview Hunk Inline" })
+map({ "n", "i", "v" }, "<leader>gs", "<cmd> Gitsigns stage_hunk <cr>", { desc = "Gitsigns Stage Hunk" })
+map({ "n", "i", "v" }, "<leader>gn", "<cmd> Gitsigns next_hunk <cr>", { desc = "Gitsigns Next Hunk" })
+map({ "n", "i", "v" }, "<leader>gb", "<cmd> Gitsigns prev_hunk <cr>", { desc = "Gitsigns Previous Hunk" })
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
