@@ -1,40 +1,24 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
-vim.g.mapleader = " "
+require("night.core")
+require("night.lazy")
 
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+vim.api.nvim_set_option("clipboard", "unnamedplus")
+vim.cmd("colorscheme kanagawa")
 
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
-end
+-- let g:vimtex_view_method = 'zathura'
+vim.g.vimtex_view_method = "zathura"
 
-vim.opt.rtp:prepend(lazypath)
-
-local lazy_config = require "configs.lazy"
-
--- load plugins
-require("lazy").setup({
-  {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
-  },
-
-  { import = "plugins" },
-}, lazy_config)
-
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
-
-require "options"
-require "nvchad.autocmds"
-
--- run :PetsNew pet on startup
-vim.cmd "PetsNew pet"
-
-vim.schedule(function()
-  require "mappings"
-end)
+-- everforest
+-- tokyonight-night tokyonight-storm tokyonight-day tokyonight-moon
+-- wal
+-- yorumi
+-- neofusion
+-- rose-pine rose-pine-main rose-pine-moon rose-pine-dawn
+-- nightfly
+-- tokyonight-night, tokyonight-storm, tokyonight-day, tokyonight-moon,
+-- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+-- kanagawa-wave, kanagawa-dragon, kanagawa-lotus
+-- gruvbox
+-- moonfly
+-- onenord, onenord-light
+-- ayu, ayu-dark, ayu-light, ayu-mirage
+-- solarized-osaka, solarized-osaka-day, solarized-osaka-moon, solarized-osaka-storm, solarized-osaka-night
