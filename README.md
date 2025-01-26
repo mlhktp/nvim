@@ -3,6 +3,8 @@
 - [ ] Configure for verilog.
 - [ ] Configure the keybindings.
 - [ ] Add the [typr](https://github.com/nvzone/typr) plugin.
+- [ ] Add floating terminal.
+- [ ] Disable auto format on save for verilog.
 
 
 ## Credits:
