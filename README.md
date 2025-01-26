@@ -5,6 +5,7 @@
 - [ ] Add the [typr](https://github.com/nvzone/typr) plugin.
 - [ ] Add floating terminal.
 - [ ] Disable auto format on save for verilog.
+- [ ] Do not hide hidden files on Neotree and Telescope.
 
 
 ## Credits:
