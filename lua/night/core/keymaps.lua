@@ -67,7 +67,7 @@ keymap.set("n", "<A-7>", ":BufferGoto 7<CR>")
 keymap.set("n", "<A-8>", ":BufferGoto 8<CR>")
 keymap.set("n", "<A-9>", ":BufferGoto 9<CR>")
 keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
-
+keymap.set("n", "<A-Tab>", ":BufferNext<CR>")
 -- vim-maximizer
 keymap.set("n", "<leader>mt", ":MaximizerToggle<CR>") -- toggle split window maximization
 
@@ -90,11 +90,22 @@ keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string u
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 
--- telescope git commands
-keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git commits (use <cr> to checkout) ["gc" for git commits]
-keymap.set("n", "<leader>gbc", "<cmd>Telescope git_bcommits<cr>") -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
-keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git branches (use <cr> to checkout) ["gb" for git branch]
-keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current changes per file with diff preview ["gs" for git status]
+-- telescope git commandsmap
+keymap.set("n", "<leader>gp", "<cmd> Gitsigns preview_hunk <cr>", { desc = "Gitsigns Preview Hunk" })
+keymap.set("n", "<leader>gi", "<cmd> Gitsigns preview_hunk_inline <cr>", { desc = "Gitsigns Preview Hunk Inline" })
+keymap.set("n", "<leader>gs", "<cmd> Gitsigns stage_hunk <cr>", { desc = "Gitsigns Stage Hunk" })
+keymap.set("n", "<leader>gS", "<cmd> Gitsigns stage_buffer <cr>", { desc = "Gitsigns Stage Buffer" })
+keymap.set("n", "<leader>gn", "<cmd> Gitsigns next_hunk <cr>", { desc = "Gitsigns Next Hunk" })
+keymap.set("n", "<leader>gN", "<cmd> Gitsigns prev_hunk <cr>", { desc = "Gitsigns Previous Hunk" })
+keymap.set("n", "<leader>gr", "<cmd> Gitsigns reset_hunk <cr>", { desc = "Gitsigns Reset Hunk" })
+keymap.set("n", "<leader>gR", "<cmd> Gitsigns reset_buffer <cr>", { desc = "Gitsigns Reset Buffer" })
+keymap.set("n", "<leader>gu", "<cmd> Gitsigns undo_stage_hunk <cr>", { desc = "Gitsigns Undo Stage Hunk" })
+keymap.set("n", "<leader>gU", "<cmd> Gitsigns reset_buffer_index <cr>", { desc = "Gitsigns Reset Buffer Index" })
+
+keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" }) -- list all git commits (use <cr> to checkout) ["gc" for git commits]
+keymap.set("n", "<leader>gbc", "<cmd>Telescope git_bcommits<cr>", { desc = "Telescope Buffer Commits" }) -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
+keymap.set("n", "<leader>gbr", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" }) -- list git branches (use <cr> to checkout) ["gb" for git branch]
+keymap.set("n", "<leader>gst", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" }) -- list current changes per file with diff preview ["gs" for git status]
 
 -- restart lsp server
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
@@ -102,14 +113,54 @@ keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if ne
 keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
 keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
 
-keymap.set("n", "<leader>hm", "<cmd>lua require('harpoon.mark').add_file()<cr>", { desc = "Mark file with harpoon" })
-keymap.set("n", "<leader>hn", "<cmd>lua require('harpoon.ui').nav_next()<cr>", { desc = "Go to next harpoon mark" })
-keymap.set("n", "<leader>hp", "<cmd>lua require('harpoon.ui').nav_prev()<cr>", { desc = "Go to previous harpoon mark" })
+-- local harpoon = require("plugins.harpoon")
+-- -- -- required
+-- -- harpoon:setup()
+-- -- -- required
+-- keymap.set("n", "<leader>hm", function()
+-- 	harpoon:list():add()
+-- end, { desc = "mark file with harpoon" })
+-- keymap.set("n", "<leader>hp", function()
+-- 	harpoon:list():prev()
+-- end, { desc = "go to next harpoon mark" })
+-- keymap.set("n", "<leader>hn", function()
+-- 	harpoon:list():next()
+-- end, { desc = "go to previous harpoon mark" })
+-- keymap.set("n", "<leader>hm", "<cmd>lua require('harpoon.mark').add_file()<cr>", { desc = "Mark file with harpoon" })
+-- keymap.set("n", "<leader>hp", "<cmd>lua require('harpoon.ui').nav_prev()<cr>", { desc = "Go to previous harpoon mark" })
+-- keymap.set("n", "<leader>hn", "<cmd>lua require('harpoon.ui').nav_next()<cr>", { desc = "Go to next harpoon mark" })
 
 keymap.set("n", "<leader>cc", ":Themery<CR>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-t>", function()
-    require("menu").open("default")
-end, {})
+-- vim.keymap.set("n", "<C-t>", function()
+-- 	require("menu").open("default")
+-- end, {})
 
 keymap.set("n", "<leader>ch", ":lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic" })
+
+----------------------
+-- Custom Keymaps
+----------------------
+keymap.set("v", ">", ">gv")
+keymap.set("v", "<", "<gv")
+keymap.set("n", "<TAB>", ":bn<CR>")
+keymap.set("n", "<S-TAB>", ":bp<CR>")
+
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+keymap.set("n", "<C-Up>", ":resize -2<CR>")
+keymap.set("n", "<C-Down>", ":resize +2<CR>")
+keymap.set("n", "<C-Left>", ":vertical resize -2<CR>")
+keymap.set("n", "<C-Right>", ":vertical resize +2<CR>")
+
+-- terminal
+keymap.set("t", "<C-Up>", "<cmd>resize -2<CR>")
+keymap.set("t", "<C-Down>", "<cmd>resize +2<CR>")
+keymap.set("t", "<C-Left>", "<cmd>vertical resize -2<CR>")
+keymap.set("t", "<C-Right>", "<cmd>vertical resize +2<CR>")
+
+keymap.set("t", "<C-h>", "<cmd>wincmd h<CR>")
+keymap.set("t", "<C-j>", "<cmd>wincmd j<CR>")
+keymap.set("t", "<C-k>", "<cmd>wincmd k<CR>")
+keymap.set("t", "<C-l>", "<cmd>wincmd l<CR>")
