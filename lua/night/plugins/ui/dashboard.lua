@@ -40,7 +40,6 @@ return {
                 dashboard.button("rf", "   Recent", "<cmd> Telescope oldfiles <cr>"),
                 dashboard.button("gc", "   Git commits", "<cmd>:Telescope git_commits<cr>"),
                 dashboard.button("gO", "   Git branches", "<cmd>:Telescope git_branches<cr>"),
-                dashboard.button("oc", " 🖿  Open config", "<cmd>tabnew $MYVIMRC | tcd %:p:h<cr>"),
             }
             for _, button in ipairs(dashboard.section.buttons.val) do
                 button.opts.hl = "Comment"
