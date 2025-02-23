@@ -108,6 +108,12 @@ keymap.set("n", "<leader>gbc", "<cmd>Telescope git_bcommits<cr>", { desc = "Tele
 keymap.set("n", "<leader>gbr", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" }) -- list git branches (use <cr> to checkout) ["gb" for git branch]
 keymap.set("n", "<leader>gst", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" }) -- list current changes per file with diff preview ["gs" for git status]
 
+-- Conflict resolver
+keymap.set("n", "<leader>gdo", "<cmd>Gvdiffsplit! | wincmd J | resize 20<CR>", { desc = "Open diff view for conflicted file" })
+keymap.set("n", "<leader>gdc", "<cmd>Gvdiffclose<CR>", { desc = "Close diff view for conflicted file" })
+keymap.set("n", "<leader>gdh", "<cmd>diffget //2<CR>", { desc = "Accept local changes" })
+keymap.set("n", "<leader>gdl", "<cmd>diffget //3<CR>", { desc = "Accept remote changes" })
+
 -- restart lsp server
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
 
