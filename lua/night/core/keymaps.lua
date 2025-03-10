@@ -12,6 +12,7 @@ keymap.set("n", "<C-j>", "<C-w>j") -- move to bottom window
 keymap.set("n", "<C-k>", "<C-w>k") -- move to top window
 keymap.set("n", "<C-l>", "<C-w>l") -- move to right window
 
+-- keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>") -- clear search highlights
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
 
@@ -30,7 +31,7 @@ keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
 
 keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
-keymap.set("n", "<leader>cs", ":close<CR>") -- close current split window
+-- keymap.set("n", "<leader>cs", ":close<CR>") -- close current split window
 
 keymap.set("n", "<leader>nt", ":tabnew<CR>") -- open new tab
 keymap.set("n", "<C-q>", ":BufferClose<CR>") -- close current tab

@@ -35,6 +35,8 @@ nvim_lsp.svlangserver.setup({
 })
 nlspsettings.setup({})
 
+vim.opt.list = true
+vim.opt.listchars:append("space: ")
 
 if vim.g.neovide then
     -- Put anything you want to happen only in Neovide here
