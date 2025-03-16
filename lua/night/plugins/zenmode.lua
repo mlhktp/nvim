@@ -78,13 +78,36 @@ return {
                    neovide_cursor_vfx_mode = "",
            }
        },
-     },
-     -- callback where you can add custom code when the Zen window opens
-    on_open = function(win)
-    end,
-     -- callback where you can add custom code when the Zen window closes
-     on_close = function()
-     end,
-   }
+       -- Save previous settings and set new ones on open
+      on_open = function(win)
+        -- Save previous settings
+        vim.g.prev_wrap = vim.wo.wrap
+        vim.g.prev_linebreak = vim.wo.linebreak
+        vim.g.prev_whichwrap = vim.o.whichwrap
+
+        -- Apply Zen Mode settings
+        vim.wo.wrap = true
+        vim.wo.linebreak = true
+        vim.o.whichwrap = vim.o.whichwrap .. ",h,l,<,>,[,]"
+
+        -- Explicitly remap movements
+        vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true, silent = true })
+        vim.api.nvim_set_keymap("n", "0", "g0", { noremap = true, silent = true }) -- Move to beginning of screen line
+        vim.api.nvim_set_keymap("n", "$", "g$", { noremap = true, silent = true }) -- Move to end of screen line
+      end,
+      on_close = function()
+        -- Restore previous settings
+        vim.wo.wrap = vim.g.prev_wrap
+        vim.wo.linebreak = vim.g.prev_linebreak
+        vim.o.whichwrap = vim.g.prev_whichwrap
+
+        -- Remove remaps
+        vim.api.nvim_del_keymap("n", "j")
+        vim.api.nvim_del_keymap("n", "k")
+        vim.api.nvim_del_keymap("n", "0")
+        vim.api.nvim_del_keymap("n", "$")
+      end,
+     }
    end,
 }

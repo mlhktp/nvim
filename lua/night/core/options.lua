@@ -47,3 +47,7 @@ opt.swapfile = false
 
 -- fix bug with lualine
 opt.laststatus = 3
+
+opt.title = true
+
+vim.opt.titlestring =  vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " |  "
