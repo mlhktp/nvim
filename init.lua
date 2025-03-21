@@ -23,17 +23,6 @@ vim.g.vimtex_view_method = "zathura"
 -- ayu, ayu-dark, ayu-light, ayu-mirage
 -- solarized-osaka, solarized-osaka-day, solarized-osaka-moon, solarized-osaka-storm, solarized-osaka-night
 
-local on_attach = function(client, bufnr)
-	require("nlspsettings").update_settings(client.name)
-end
-
-local nvim_lsp = require("lspconfig")
-local nlspsettings = require("nlspsettings")
-
-nvim_lsp.svlangserver.setup({
-	on_attach = on_attach,
-})
-nlspsettings.setup({})
 
 vim.opt.list = true
 vim.opt.listchars:append("space: ")

@@ -116,12 +116,6 @@ return {
 					},
 				})
 			end,
-			["svlangserver"] = function()
-				lspconfig["svlangserver"].setup({
-					capabilities = capabilities,
-					filetypes = { "systemverilog", "verilog" },
-				})
-			end,
 		})
 	end,
 }

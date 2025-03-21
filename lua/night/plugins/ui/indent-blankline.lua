@@ -37,12 +37,6 @@ return {
              },
         })
 
-
-        hooks.register(hooks.type.SKIP_LINE, function(_, _, _, line)
-            return line:match("^%s*$") ~= nil
-        end)
-
-
         hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
         hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_tab_indent_level)
 
