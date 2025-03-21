@@ -1,4 +1,4 @@
 return {
-    "knubie/vim-kitty-navigator",
-    build = "cp ./*.py ~/.config/kitty/",
+   "knubie/vim-kitty-navigator",
+   build = "cp ./*.py ~/.config/kitty/",
 }
