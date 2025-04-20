@@ -1,8 +1,8 @@
 local opt = vim.opt -- for conciseness
 
-vim.diagnostic.enable(false)
--- vim.diagnostic.config({ virtual_text = false })
--- vim.diagnostic.get(0, { severity = { min = vim.diagnostic.severity.CRIT } })
+-- General
+opt.linebreak = false
+opt.whichwrap = "b,s" -- basic default value
 
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
@@ -15,7 +15,7 @@ opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 
 -- line wrapping
-opt.wrap = false -- disable line wrapping
+opt.wrap = true -- disable line wrapping
 
 -- search settings
 opt.ignorecase = true -- ignore case when searching
@@ -49,5 +49,17 @@ opt.swapfile = false
 opt.laststatus = 3
 
 opt.title = true
+opt.titlestring = vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " |  "
 
-vim.opt.titlestring =  vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " |  "
+-- Visualize whitespace
+-- opt.list = true
+-- opt.listchars:append("space:·")
+
+-- VimTeX config
+vim.g.vimtex_view_method = "zathura"
+
+-- Diagnostics: don't globally disable them here.
+-- Let `zen-mode` or toggle commands manage that.
+-- Leave this commented unless intentional:
+-- vim.diagnostic.enable(false)
+

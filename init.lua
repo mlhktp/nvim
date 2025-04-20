@@ -4,8 +4,6 @@ require("night.lazy")
 vim.api.nvim_set_option("clipboard", "unnamedplus")
 vim.cmd("colorscheme kanagawa")
 
--- let g:vimtex_view_method = 'zathura'
-vim.g.vimtex_view_method = "zathura"
 
 -- everforest
 -- tokyonight-night tokyonight-storm tokyonight-day tokyonight-moon

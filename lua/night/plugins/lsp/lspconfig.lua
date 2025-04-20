@@ -1,21 +1,6 @@
 return {
    "neovim/nvim-lspconfig",
    event = { "BufReadPre", "BufNewFile" },
-   dependencies = {
-      "hrsh7th/nvim-cmp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lua",
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-      "jose-elias-alvarez/null-ls.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      { "antosha417/nvim-lsp-file-operations", config = true },
-      -- { "folke/neodev.nvim", opts = {} },
-   },
    config = function()
       -- import lspconfig plugin
       local lspconfig = require("lspconfig")
@@ -30,11 +15,55 @@ return {
 
       vim.api.nvim_create_autocmd("LspAttach", {
          group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-         callback = function(ev) end,
+         callback = function(ev)
+            local client = vim.lsp.get_client_by_id(ev.data.client_id)
+            if client and client.server_capabilities.documentHighlightProvider then
+               local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+               vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                  buffer = ev.buf,
+                  group = highlight_augroup,
+                  callback = vim.lsp.buf.document_highlight,
+               })
+
+               vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                  buffer = ev.buf,
+                  group = highlight_augroup,
+                  callback = vim.lsp.buf.clear_references,
+               })
+
+               vim.api.nvim_create_autocmd('LspDetach', {
+                  group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+                  callback = function(event2)
+                     vim.lsp.buf.clear_references()
+                     vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+                  end,
+               })
+            end
+
+            if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+               map('<leader>th', function()
+                  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+               end, '[T]oggle Inlay [H]ints')
+            end
+         end
       })
+
+      require("night.config.setup_systemverilog").setupLsp()
 
       -- used to enable autocompletion (assign to every lsp server config)
       local capabilities = cmp_nvim_lsp.default_capabilities()
+      vim.diagnostic.config({
+         virtual_text = {
+            spacing = 3,
+            prefix = '●',
+            severity = nil,
+            source = "if_many",
+         },
+         signs = true,
+         underline = true,
+         update_in_insert = false,
+         severity_sort = true,
+      })
 
       -- Change the Diagnostic symbols in the sign column (gutter)
       local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
@@ -106,16 +135,16 @@ return {
                },
             })
          end,
-         ["matlab_ls"] = function()
-            lspconfig["matlab_ls"].setup({
-               filetypes = { "matlab" },
-               settings = {
-                  matlab = {
-                     installPath = "/usr/local/MATLAB/R2024b/",
-                  },
-               },
-            })
-         end,
+         -- ["matlab_ls"] = function()
+         --    lspconfig["matlab_ls"].setup({
+         --       filetypes = { "matlab" },
+         --       settings = {
+         --          matlab = {
+         --             installPath = "/usr/local/MATLAB/R2024b/",
+         --          },
+         --       },
+         --    })
+         -- end,
       })
    end,
 }

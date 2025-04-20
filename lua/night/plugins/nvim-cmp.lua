@@ -21,11 +21,12 @@ return {
                mode = "symbol",
                maxwidth = 50,
                ellipsis_char = "...",
-               symbol_map = { Copilot = "" },
+               symbol_map = { Copilot = "", dictionary = "󰂺"},
             }),
             fields = { "kind", "abbr", "menu" },
             max_width = 0,
             source_names = {
+               dictionary = "(Dict)",
                nvim_lsp = "(LSP)",
                emoji = "(Emoji)",
                path = "(Path)",
@@ -62,6 +63,7 @@ return {
          }),
 
          sources = cmp.config.sources({
+            { name = "dictionary", keyword_length = 2 },
             { name = "nvim_lsp" },
             { name = "copilot" },
             { name = "vsnip" }, -- For vsnip users.

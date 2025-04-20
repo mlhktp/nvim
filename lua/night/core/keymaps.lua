@@ -46,10 +46,10 @@ keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts, {desc="See available code actions"}) -- see available code actions, in visual mode will apply to selection
 keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, {desc= "Show diagnostics for file"}) -- show  diagnostics for file
+keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts, {desc = "Show diagnostics for file open float"}) -- show diagnostics for line
 keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
 keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
@@ -68,8 +68,8 @@ keymap.set("n", "<A-7>", ":BufferGoto 7<CR>")
 keymap.set("n", "<A-8>", ":BufferGoto 8<CR>")
 keymap.set("n", "<A-9>", ":BufferGoto 9<CR>")
 keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
-keymap.set("n", "<A-j>", ":BufferNext<CR>")
-keymap.set("n", "<A-k>", ":BufferPrevious<CR>")
+-- keymap.set("n", "<A-j>", ":BufferNext<CR>")
+-- keymap.set("n", "<A-k>", ":BufferPrevious<CR>")
 -- vim-maximizer
 keymap.set("n", "<leader>mt", ":MaximizerToggle<CR>") -- toggle split window maximization
 
@@ -110,7 +110,7 @@ keymap.set("n", "<leader>gbr", "<cmd>Telescope git_branches<cr>", { desc = "Tele
 keymap.set("n", "<leader>gst", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" }) -- list current changes per file with diff preview ["gs" for git status]
 
 -- Conflict resolver
-keymap.set("n", "<leader>gdo", "<cmd>Gvdiffsplit! | wincmd J | resize 20<CR>", { desc = "Open diff view for conflicted file" })
+keymap.set("n", "<leader>gdo", "<cmd>Neotree close | Gvdiffsplit! | wincmd J | resize 20<CR>", { desc = "Open diff view for conflicted file" })
 keymap.set("n", "<leader>gdc", "<cmd>Gvdiffclose<CR>", { desc = "Close diff view for conflicted file" })
 keymap.set("n", "<leader>gdh", "<cmd>diffget //2<CR>", { desc = "Accept local changes" })
 keymap.set("n", "<leader>gdl", "<cmd>diffget //3<CR>", { desc = "Accept remote changes" })
@@ -121,22 +121,6 @@ keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if ne
 keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
 keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
 
--- local harpoon = require("plugins.harpoon")
--- -- -- required
--- -- harpoon:setup()
--- -- -- required
--- keymap.set("n", "<leader>hm", function()
--- 	harpoon:list():add()
--- end, { desc = "mark file with harpoon" })
--- keymap.set("n", "<leader>hp", function()
--- 	harpoon:list():prev()
--- end, { desc = "go to next harpoon mark" })
--- keymap.set("n", "<leader>hn", function()
--- 	harpoon:list():next()
--- end, { desc = "go to previous harpoon mark" })
--- keymap.set("n", "<leader>hm", "<cmd>lua require('harpoon.mark').add_file()<cr>", { desc = "Mark file with harpoon" })
--- keymap.set("n", "<leader>hp", "<cmd>lua require('harpoon.ui').nav_prev()<cr>", { desc = "Go to previous harpoon mark" })
--- keymap.set("n", "<leader>hn", "<cmd>lua require('harpoon.ui').nav_next()<cr>", { desc = "Go to next harpoon mark" })
 
 keymap.set("n", "<leader>cc", ":Themery<CR>", { noremap = true, silent = true })
 

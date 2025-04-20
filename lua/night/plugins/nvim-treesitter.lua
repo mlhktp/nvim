@@ -8,12 +8,15 @@ return {
          "windwp/nvim-ts-autotag",
          "p00f/nvim-ts-rainbow",
       },
-      config = function()
-         -- import nvim-treesitter plugin
-         local treesitter = require("nvim-treesitter.configs")
-
-         -- configure treesitter
-         treesitter.setup({
+      opts = {
+            highlight = {
+                enable = true,
+                disable = {},
+                -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+                --  If you are experiencing weird indenting issues, add the language to
+                --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+                additional_vim_regex_highlighting = { 'ruby' },
+            },
             -- enable syntax highlighting
             -- highlight = {
             --     enable = true,
@@ -53,6 +56,7 @@ return {
                "dockerfile",
                "gitignore",
                "query",
+               "verilog",
             },
             incremental_selection = {
                enable = true,
@@ -68,7 +72,14 @@ return {
             --  enable = true,
             --  enable_autocmd = false,
             --},
-         })
+      },
+      config = function(_, opts)
+         -- import nvim-treesitter plugin
+         local treesitter = require("nvim-treesitter.configs")
+         require'night.config.setup_systemverilog'.setupTreesitter(opts)
+
+         -- configure treesitter
+         treesitter.setup(opts)
       end,
    },
 }

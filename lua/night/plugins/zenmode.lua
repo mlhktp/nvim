@@ -36,78 +36,46 @@ return {
                -- statusline will be shown only if 'laststatus' == 3
                laststatus = 0, -- turn off the statusline in zen mode
             },
-            twilight = { enabled = true }, -- enable to start Twilight when zen mode opens
-            gitsigns = { enabled = false }, -- disables git signs
-            tmux = { enabled = true }, -- disables the tmux statusline
-            todo = { enabled = false }, -- if set to "true", todo-comments.nvim highlights will be disabled
-            -- this will change the font size on kitty when in zen mode
-            -- to make this work, you need to set the following kitty options:
-            -- - allow_remote_control socket-only
-            -- - listen_on unix:/tmp/kitty
-            kitty = {
-               enabled = false,
-               font = "+4", -- font size increment
-            },
-            -- this will change the font size on alacritty when in zen mode
-            -- requires  Alacritty Version 0.10.0 or higher
-            -- uses `alacritty msg` subcommand to change font size
-            alacritty = {
-               enabled = false,
-               font = "14", -- font size
-            },
-            -- this will change the font size on wezterm when in zen mode
-            -- See also the Plugins/Wezterm section in this project's README
-            wezterm = {
-               enabled = false,
-               -- can be either an absolute font size or the number of incremental steps
-               font = "+4", -- (10% increase per step)
-            },
-            -- this will change the scale factor in Neovide when in zen mode
-            -- See also the Plugins/Wezterm section in this project's README
-            neovide = {
-               enabled = false,
-               -- Will multiply the current scale factor by this number
-               scale = 1.2,
-               -- disable the Neovide animations while in Zen mode
-               disable_animations = {
-                  neovide_animation_length = 0,
-                  neovide_cursor_animate_command_line = false,
-                  neovide_scroll_animation_length = 0,
-                  neovide_position_animation_length = 0,
-                  neovide_cursor_animation_length = 0,
-                  neovide_cursor_vfx_mode = "",
-               }
-            }
+            twilight = { enabled = true },
+            gitsigns = false,
+            tmux = true,
+            kitty = false,
+            alacritty = false,
+            wezterm = false,
+            neovide = false,
          },
-         -- Save previous settings and set new ones on open
-         on_open = function(win)
-            -- Save previous settings
-            vim.g.prev_wrap = vim.wo.wrap
-            vim.g.prev_linebreak = vim.wo.linebreak
-            vim.g.prev_whichwrap = vim.o.whichwrap
+         on_open = function()
+            -- Save and override line wrap settings
+            vim.b._zen_mode_prev = {
+               wrap = vim.wo.wrap,
+               linebreak = vim.wo.linebreak,
+               whichwrap = vim.o.whichwrap,
+            }
 
             -- Apply Zen Mode settings
             vim.wo.wrap = true
             vim.wo.linebreak = true
             vim.o.whichwrap = vim.o.whichwrap .. ",h,l,<,>,[,]"
 
-            -- Explicitly remap movements
-            vim.api.nvim_set_keymap("n", "j", "gj", { noremap = true, silent = true })
-            vim.api.nvim_set_keymap("n", "k", "gk", { noremap = true, silent = true })
-            vim.api.nvim_set_keymap("n", "0", "g0", { noremap = true, silent = true }) -- Move to beginning of screen line
-            vim.api.nvim_set_keymap("n", "$", "g$", { noremap = true, silent = true }) -- Move to end of screen line
+            -- Remap navigation keys
+            local opts = { noremap = true, silent = true }
+            vim.keymap.set("n", "j", "gj", opts)
+            vim.keymap.set("n", "k", "gk", opts)
+            vim.keymap.set("n", "0", "g0", opts)
+            vim.keymap.set("n", "$", "g$", opts)
          end,
          on_close = function()
-            -- Restore previous settings
-            vim.wo.wrap = vim.g.prev_wrap
-            vim.wo.linebreak = vim.g.prev_linebreak
-            vim.o.whichwrap = vim.g.prev_whichwrap
+            local prev = vim.b._zen_mode_prev or {}
+
+            vim.wo.wrap = prev.wrap or false
+            vim.wo.linebreak = prev.linebreak or false
+            vim.o.whichwrap = prev.whichwrap or "b,s"
 
             -- Remove remaps
-            vim.api.nvim_del_keymap("n", "j")
-            vim.api.nvim_del_keymap("n", "k")
-            vim.api.nvim_del_keymap("n", "0")
-            vim.api.nvim_del_keymap("n", "$")
+            vim.keymap.del("n", "j")
+            vim.keymap.del("n", "k")
+            vim.keymap.del("n", "0")
+            vim.keymap.del("n", "$")
          end,
       }
    end,
