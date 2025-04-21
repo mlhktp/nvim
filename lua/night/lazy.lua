@@ -36,16 +36,3 @@ require("lazy").setup({
       },
    })
 local keymap = vim.keymap -- for conciseness
-local harpoon = require("harpoon")
--- -- required
-harpoon:setup()
--- -- required
-keymap.set("n", "<leader>hm", function()
-   harpoon:list():add()
-end, { desc = "mark file with harpoon" })
-keymap.set("n", "<leader>hp", function()
-   harpoon:list():prev()
-end, { desc = "go to next harpoon mark" })
-keymap.set("n", "<leader>hn", function()
-   harpoon:list():next()
-end, { desc = "go to previous harpoon mark" })
