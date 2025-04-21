@@ -54,10 +54,10 @@ return {
       local capabilities = cmp_nvim_lsp.default_capabilities()
       vim.diagnostic.config({
          virtual_text = {
-            spacing = 3,
+            spacing = 2,
             prefix = '●',
             severity = nil,
-            source = "if_many",
+            source = "always",
          },
          signs = true,
          underline = true,

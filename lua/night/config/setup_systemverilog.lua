@@ -25,6 +25,10 @@ function setup_systemverilog.setupLinter(lint)
 
     local verilator = lint.linters.verilator
 
+
+    -- If the following is not true the warning MODDUP appears
+    verilator.append_fname = false
+
     -- Add/change arguments for Verilator here.
     -- You can also use or re-use a verilator.f file (see example\verilator.f)
     -- placed anywhere between CWD and your home dir and it
@@ -35,9 +39,6 @@ function setup_systemverilog.setupLinter(lint)
     -- with the exception of the '-f' and corresponding path to verilator.f
     verilator.args = {
         "-sv",
-        "-Wall",
-        "--bbox-sys",
-        "--bbox-unsup",
         "--lint-only",
         '-f',
         vim.fs.find('verilator.f', {upward = true, stop = vim.env.HOME})[1],
