@@ -39,14 +39,14 @@ keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
 keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
 
 ----------------------
--- Plugin Keybinds
+-- LSP Keybinds
 ----------------------
 keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts, {desc="See available code actions"}) -- see available code actions, in visual mode will apply to selection
+keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts, {desc="See available code actions"}) -- see available code actions, in visual mode will apply to selection
 keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, {desc= "Show diagnostics for file"}) -- show  diagnostics for file
 keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts, {desc = "Show diagnostics for file open float"}) -- show diagnostics for line
@@ -54,6 +54,14 @@ keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagno
 keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
+keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
+keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- zen mode
 keymap.set("n", "<leader>zm", ":ZenMode<CR>")

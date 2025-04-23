@@ -7,13 +7,23 @@
 local setup_systemverilog = {}
 
 function setup_systemverilog.setupLsp()
-    require('lspconfig').verible.setup({
-        cmd = { 'verible-verilog-ls', '--rules_config_search' },
-        -- cmd = { 'verible-verilog-ls' },
-        root_dir = require('lspconfig').util.root_pattern({'.git', 'verilator.f'}),
-        -- capabilities = capabilities,
-        format_on_save = false,
-    })
+   local on_attach = function(client, bufnr)
+      -- Enable completion triggered by <c-x><c-o>
+      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+   end
+
+   local lsp_flags = {
+      -- This is the default in Nvim 0.7+
+      debounce_text_changes = 150,
+   }
+
+   require'lspconfig'.verible.setup {
+      on_attach = on_attach,
+      flags = lsp_flags,
+      format_on_save = false,
+      cmd = { 'verible-verilog-ls', '--rules_config_search' },
+      root_dir = require('lspconfig').util.root_pattern({'.git', 'verilator.f'}),
+   }
 end
 
 function setup_systemverilog.setupLinter(lint)
