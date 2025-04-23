@@ -7,91 +7,163 @@ local keymap = vim.keymap -- for conciseness
 -- General Keymaps
 ---------------------
 
-keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" }) -- move to left window
-keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to bottom window" }) -- move to bottom window
-keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to top window" }) -- move to top window
-keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" }) -- move to right window
+keymap.set("n", "<C-h>", "<C-w>h") -- move to left window
+keymap.set("n", "<C-j>", "<C-w>j") -- move to bottom window
+keymap.set("n", "<C-k>", "<C-w>k") -- move to top window
+keymap.set("n", "<C-l>", "<C-w>l") -- move to right window
 
 -- keymap.set("n", "<ESC><ESC>", "<cmd>nohlsearch<CR>") -- clear search highlights
 -- use jk to exit insert mode
-keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+keymap.set("i", "jk", "<ESC>")
 
 -- clear search highlights
-keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
+keymap.set("n", "<leader>nh", ":nohl<CR>")
 
 -- delete single character without copying into register
-keymap.set("n", "x", '"_x', { desc = "Delete character without copying" })
+keymap.set("n", "x", '"_x')
+
+-- increment/decrement numbers
+keymap.set("n", "<leader>+", "<C-a>") -- increment
+keymap.set("n", "<leader>-", "<C-x>") -- decrement
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+keymap.set("n", "<leader>sv", "<C-w>v") -- split window vertically
+keymap.set("n", "<leader>sh", "<C-w>s") -- split window horizontally
 
-keymap.set("n", "<leader>nt", ":tabnew<CR>", { desc = "Open new tab" }) -- open new tab
-keymap.set("n", "<C-q>", ":BufferClose<CR>", { desc = "Close current tab" }) -- close current tab
-keymap.set("n", "<leader>tn", ":tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
-keymap.set("n", "<leader>tp", ":tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
+keymap.set("n", "<leader>se", "<C-w>=") -- make split windows equal width & height
+-- keymap.set("n", "<leader>cs", ":close<CR>") -- close current split window
+
+keymap.set("n", "<leader>nt", ":tabnew<CR>") -- open new tab
+keymap.set("n", "<C-q>", ":BufferClose<CR>") -- close current tab
+keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
+keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
+
+----------------------
+-- Plugin Keybinds
+----------------------
+keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts, {desc="See available code actions"}) -- see available code actions, in visual mode will apply to selection
+keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
+keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, {desc= "Show diagnostics for file"}) -- show  diagnostics for file
+keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts, {desc = "Show diagnostics for file open float"}) -- show diagnostics for line
+keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
 -- zen mode
-keymap.set("n", "<leader>zm", ":ZenMode<CR>", { desc = "Toggle Zen Mode" })
+keymap.set("n", "<leader>zm", ":ZenMode<CR>")
 
-keymap.set("n", "<A-1>", ":BufferGoto 1<CR>", { desc = "Go to buffer 1" })
-keymap.set("n", "<A-2>", ":BufferGoto 2<CR>", { desc = "Go to buffer 2" })
-keymap.set("n", "<A-3>", ":BufferGoto 3<CR>", { desc = "Go to buffer 3" })
-keymap.set("n", "<A-4>", ":BufferGoto 4<CR>", { desc = "Go to buffer 4" })
-keymap.set("n", "<A-5>", ":BufferGoto 5<CR>", { desc = "Go to buffer 5" })
-keymap.set("n", "<A-6>", ":BufferGoto 6<CR>", { desc = "Go to buffer 6" })
-keymap.set("n", "<A-7>", ":BufferGoto 7<CR>", { desc = "Go to buffer 7" })
-keymap.set("n", "<A-8>", ":BufferGoto 8<CR>", { desc = "Go to buffer 8" })
-keymap.set("n", "<A-9>", ":BufferGoto 9<CR>", { desc = "Go to buffer 9" })
-keymap.set("n", "<A-0>", ":BufferGoto 0<CR>", { desc = "Go to buffer 0" })
+keymap.set("n", "<A-1>", ":BufferGoto 1<CR>")
+keymap.set("n", "<A-2>", ":BufferGoto 2<CR>")
+keymap.set("n", "<A-3>", ":BufferGoto 3<CR>")
+keymap.set("n", "<A-4>", ":BufferGoto 4<CR>")
+keymap.set("n", "<A-5>", ":BufferGoto 5<CR>")
+keymap.set("n", "<A-6>", ":BufferGoto 6<CR>")
+keymap.set("n", "<A-7>", ":BufferGoto 7<CR>")
+keymap.set("n", "<A-8>", ":BufferGoto 8<CR>")
+keymap.set("n", "<A-9>", ":BufferGoto 9<CR>")
+keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
+-- keymap.set("n", "<A-j>", ":BufferNext<CR>")
+-- keymap.set("n", "<A-k>", ":BufferPrevious<CR>")
+-- vim-maximizer
+keymap.set("n", "<leader>mt", ":MaximizerToggle<CR>") -- toggle split window maximization
 
 -- FOR NEO TREE
-keymap.set("n", "<leader>e", ":Neotree left<CR>", { desc = "Open Neotree left" }) -- toggle file explorer
-keymap.set("n", "<leader>ef", ":Neotree float<CR>", { desc = "Open Neotree float" })
-keymap.set("n", "<leader>ec", ":Neotree close<CR>", { desc = "Close Neotree" })
-keymap.set("n", "<leader>ee", ":Neotree float git_status git_base=main<CR>", { desc = "Git status in Neotree float" })
+keymap.set("n", "<leader>e", ":Neotree left<CR>") -- toggle file explorer
+keymap.set("n", "<leader>ef", ":Neotree float<CR>")
+keymap.set("n", "<leader>ec", ":Neotree close<CR>")
+keymap.set("n", "<leader>ee", ":Neotree float git_status git_base=main<CR>")
 
 -- tagbar
-keymap.set("n", "<leader>t", ":TagbarToggle<CR>", { desc = "Toggle Tagbar" })
+keymap.set("n", "<leader>t", ":TagbarToggle<CR>")
 
 -- terminal
-keymap.set("n", "<leader>ot", ":terminal<CR>", { desc = "Open terminal" })
+keymap.set("n", "<leader>ot", ":terminal<CR>")
 
 -- telescope
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" }) -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" }) -- find string in current working directory as you type
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Grep string under cursor" }) -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "List open buffers" }) -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help tags" }) -- list available help tags
+keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
+keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
+keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
+keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
+keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 
-keymap.set("n", "<leader>cc", ":Themery<CR>", { noremap = true, silent = true, desc = "Open Themery" })
+-- telescope git commandsmap
+keymap.set("n", "<leader>gp", "<cmd> Gitsigns preview_hunk <cr>", { desc = "Gitsigns Preview Hunk" })
+keymap.set("n", "<leader>gi", "<cmd> Gitsigns preview_hunk_inline <cr>", { desc = "Gitsigns Preview Hunk Inline" })
+keymap.set("n", "<leader>gs", "<cmd> Gitsigns stage_hunk <cr>", { desc = "Gitsigns Stage Hunk" })
+keymap.set("n", "<leader>gS", "<cmd> Gitsigns stage_buffer <cr>", { desc = "Gitsigns Stage Buffer" })
+keymap.set("n", "<leader>gn", "<cmd>Gitsigns next_hunk<CR>zz", { desc = "Gitsigns Next Hunk" })
+keymap.set("n", "<leader>gN", "<cmd> Gitsigns prev_hunk <cr>", { desc = "Gitsigns Previous Hunk" })
+keymap.set("n", "<leader>gr", "<cmd> Gitsigns reset_hunk <cr>", { desc = "Gitsigns Reset Hunk" })
+keymap.set("n", "<leader>gR", "<cmd> Gitsigns reset_buffer <cr>", { desc = "Gitsigns Reset Buffer" })
+keymap.set("n", "<leader>gu", "<cmd> Gitsigns undo_stage_hunk <cr>", { desc = "Gitsigns Undo Stage Hunk" })
+keymap.set("n", "<leader>gU", "<cmd> Gitsigns reset_buffer_index <cr>", { desc = "Gitsigns Reset Buffer Index" })
 
-keymap.set("n", "<leader>ch", ":lua vim.diagnostic.open_float()<CR>", { desc = "Show diagnostics float" })
+keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "Telescope Git Commits" }) -- list all git commits (use <cr> to checkout) ["gc" for git commits]
+keymap.set("n", "<leader>gbc", "<cmd>Telescope git_bcommits<cr>", { desc = "Telescope Buffer Commits" }) -- list git commits for current file/buffer (use <cr> to checkout) ["gfc" for git file commits]
+keymap.set("n", "<leader>gbr", "<cmd>Telescope git_branches<cr>", { desc = "Telescope Git Branches" }) -- list git branches (use <cr> to checkout) ["gb" for git branch]
+keymap.set("n", "<leader>gst", "<cmd>Telescope git_status<cr>", { desc = "Telescope Git Status" }) -- list current changes per file with diff preview ["gs" for git status]
+
+-- Conflict resolver
+keymap.set("n", "<leader>gdo", "<cmd>Neotree close | Gvdiffsplit! | wincmd J | resize 20<CR>", { desc = "Open diff view for conflicted file" })
+keymap.set("n", "<leader>gdc", "<cmd>Gvdiffclose<CR>", { desc = "Close diff view for conflicted file" })
+keymap.set("n", "<leader>gdh", "<cmd>diffget //2<CR>", { desc = "Accept local changes" })
+keymap.set("n", "<leader>gdl", "<cmd>diffget //3<CR>", { desc = "Accept remote changes" })
+
+-- restart lsp server
+keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
+
+keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
+keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
+
+
+keymap.set("n", "<leader>cc", ":Themery<CR>", { noremap = true, silent = true })
+
+-- vim.keymap.set("n", "<C-t>", function()
+-- 	require("menu").open("default")
+-- end, {})
+
+keymap.set("n", "<leader>ch", ":lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic" })
 
 ----------------------
 -- Custom Keymaps
 ----------------------
-keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
-keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
-keymap.set("n", "<TAB>", ":bn<CR>", { desc = "Next buffer" })
-keymap.set("n", "<S-TAB>", ":bp<CR>", { desc = "Previous buffer" })
-keymap.set("n", "<C-d>", '<cmd>call smoothie#do("<C-d>zz")<CR>', { desc = "Smooth scroll down" })
-keymap.set("n", "<C-u>", '<cmd>call smoothie#do("<C-u>zz")<CR>', { desc = "Smooth scroll up" })
-keymap.set("n", "n", "nzz", { desc = "Next search result centered" })
-keymap.set("n", "N", "Nzz", { desc = "Previous search result centered" })
+keymap.set("v", ">", ">gv")
+keymap.set("v", "<", "<gv")
+keymap.set("n", "<TAB>", ":bn<CR>")
+keymap.set("n", "<S-TAB>", ":bp<CR>")
+keymap.set("n", "<C-d>", '<cmd>call smoothie#do("<C-d>zz")<CR>')
+keymap.set("n", "<C-u>", '<cmd>call smoothie#do("<C-u>zz")<CR>')
+keymap.set("n", "n", "nzz")
+keymap.set("n", "N", "Nzz")
 
-keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
-keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-keymap.set("n", "<C-Up>", ":resize -2<CR>", { desc = "Resize window up" })
-keymap.set("n", "<C-Down>", ":resize +2<CR>", { desc = "Resize window down" })
-keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Resize window left" })
-keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Resize window right" })
+keymap.set("n", "<C-Up>", ":resize -2<CR>")
+keymap.set("n", "<C-Down>", ":resize +2<CR>")
+keymap.set("n", "<C-Left>", ":vertical resize -2<CR>")
+keymap.set("n", "<C-Right>", ":vertical resize +2<CR>")
 
 -- terminal
-keymap.set("t", "<C-Up>", "<cmd>resize -2<CR>", { desc = "Resize terminal up" })
-keymap.set("t", "<C-Down>", "<cmd>resize +2<CR>", { desc = "Resize terminal down" })
-keymap.set("t", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Resize terminal left" })
-keymap.set("t", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Resize terminal right" })
+keymap.set("t", "<C-Up>", "<cmd>resize -2<CR>")
+keymap.set("t", "<C-Down>", "<cmd>resize +2<CR>")
+keymap.set("t", "<C-Left>", "<cmd>vertical resize -2<CR>")
+keymap.set("t", "<C-Right>", "<cmd>vertical resize +2<CR>")
 
+keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+
+keymap.set({"n","t"}, "<M-i>", "<cmd>ToggleTerm direction=float name=termFloat<CR>")
+keymap.set({"n","t"}, "<M-h>", "<cmd>ToggleTerm direction=horizontal name=termHorizontal<CR>")
+keymap.set({"n","t"}, "<M-v>", "<cmd>ToggleTerm direction=vertical size=70 name=termVertical<CR>")
