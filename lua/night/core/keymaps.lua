@@ -172,5 +172,8 @@ keymap.set("n", "<A-7>", ":BufferGoto 7<CR>")
 keymap.set("n", "<A-8>", ":BufferGoto 8<CR>")
 keymap.set("n", "<A-9>", ":BufferGoto 9<CR>")
 keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
+
 keymap.set("n", "<A-h>", "g^") -- move to beginning of line
 keymap.set("n", "<A-l>", "g$") -- move to end of line
+
+keymap.set("n", "<A-e>", "<cmd>Neotree toggle<CR>") -- toggle file explorer
