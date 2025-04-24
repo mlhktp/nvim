@@ -177,3 +177,7 @@ keymap.set("n", "<A-h>", "g^") -- move to beginning of line
 keymap.set("n", "<A-l>", "g$") -- move to end of line
 
 keymap.set("n", "<A-e>", "<cmd>Neotree toggle<CR>") -- toggle file explorer
+
+keymap.set("n", "<A-p>", "<Plug>ReplaceWithRegisterOperatoriw", { noremap = false })
+keymap.set("n", "<A-[>", "<Plug>ReplaceWithRegisterOperator")
+keymap.set("v", "<A-p>", "<Plug>ReplaceWithRegisterVisual")
