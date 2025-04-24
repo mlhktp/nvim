@@ -6,8 +6,6 @@ local keymap = vim.keymap -- for conciseness
 ---------------------
 -- General Keymaps
 ---------------------
-keymap.set("n", "<A-h>", "g^") -- move to beginning of line
-keymap.set("n", "<A-l>", "g$") -- move to end of line
 
 keymap.set("n", "<C-h>", "<C-w>h") -- move to left window
 keymap.set("n", "<C-j>", "<C-w>j") -- move to bottom window
@@ -43,43 +41,29 @@ keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
 ----------------------
 -- LSP Keybinds
 ----------------------
-keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts, {desc="See available code actions"}) -- see available code actions, in visual mode will apply to selection
-keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, {desc= "Show diagnostics for file"}) -- show  diagnostics for file
-keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts, {desc = "Show diagnostics for file open float"}) -- show diagnostics for line
-keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-keymap.set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
-keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-keymap.set('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
-keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { desc = "LSP: Show references" })
+keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "LSP: Go to declaration" })
+keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "LSP: Show definitions" })
+keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "LSP: Show implementations" })
+keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "LSP: Show type definitions" })
+keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, { desc = "LSP: See available code actions" })
+keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP: Smart rename" })
+keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", { desc = "LSP: Show diagnostics for file" })
+keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "LSP: Show diagnostics in float" })
+keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "LSP: Go to previous diagnostic" })
+keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "LSP: Go to next diagnostic" })
+keymap.set("n", "K", vim.lsp.buf.hover, { desc = "LSP: Hover documentation" })
+keymap.set("n", "<leader>rs", ":LspRestart<CR>", { desc = "LSP: Restart LSP server" })
+keymap.set("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, { desc = "LSP: Format buffer" })
+keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "LSP: Add workspace folder" })
+keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "LSP: Remove workspace folder" })
+keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, { desc = "LSP: List workspace folders" })
+keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "LSP: Signature help" })
+keymap.set("n", '<space>q', vim.diagnostic.setloclist, { desc = "LSP: Diagnostics to location list" })
 
 -- zen mode
 keymap.set("n", "<leader>zm", ":ZenMode<CR>")
 
-keymap.set("n", "<A-1>", ":BufferGoto 1<CR>")
-keymap.set("n", "<A-2>", ":BufferGoto 2<CR>")
-keymap.set("n", "<A-3>", ":BufferGoto 3<CR>")
-keymap.set("n", "<A-4>", ":BufferGoto 4<CR>")
-keymap.set("n", "<A-5>", ":BufferGoto 5<CR>")
-keymap.set("n", "<A-6>", ":BufferGoto 6<CR>")
-keymap.set("n", "<A-7>", ":BufferGoto 7<CR>")
-keymap.set("n", "<A-8>", ":BufferGoto 8<CR>")
-keymap.set("n", "<A-9>", ":BufferGoto 9<CR>")
-keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
--- keymap.set("n", "<A-j>", ":BufferNext<CR>")
--- keymap.set("n", "<A-k>", ":BufferPrevious<CR>")
 -- vim-maximizer
 keymap.set("n", "<leader>mt", ":MaximizerToggle<CR>") -- toggle split window maximization
 
@@ -174,6 +158,19 @@ keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
 keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
 keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 
+-- META KEYS
 keymap.set({"n","t"}, "<M-i>", "<cmd>ToggleTerm direction=float name=termFloat<CR>")
 keymap.set({"n","t"}, "<M-->", "<cmd>ToggleTerm direction=horizontal name=termHorizontal<CR>")
 keymap.set({"n","t"}, "<M-v>", "<cmd>ToggleTerm direction=vertical size=70 name=termVertical<CR>")
+keymap.set("n", "<A-1>", ":BufferGoto 1<CR>")
+keymap.set("n", "<A-2>", ":BufferGoto 2<CR>")
+keymap.set("n", "<A-3>", ":BufferGoto 3<CR>")
+keymap.set("n", "<A-4>", ":BufferGoto 4<CR>")
+keymap.set("n", "<A-5>", ":BufferGoto 5<CR>")
+keymap.set("n", "<A-6>", ":BufferGoto 6<CR>")
+keymap.set("n", "<A-7>", ":BufferGoto 7<CR>")
+keymap.set("n", "<A-8>", ":BufferGoto 8<CR>")
+keymap.set("n", "<A-9>", ":BufferGoto 9<CR>")
+keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
+keymap.set("n", "<A-h>", "g^") -- move to beginning of line
+keymap.set("n", "<A-l>", "g$") -- move to end of line
