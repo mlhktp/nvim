@@ -6,6 +6,8 @@ local keymap = vim.keymap -- for conciseness
 ---------------------
 -- General Keymaps
 ---------------------
+keymap.set("n", "<A-h>", "g^") -- move to beginning of line
+keymap.set("n", "<A-l>", "g$") -- move to end of line
 
 keymap.set("n", "<C-h>", "<C-w>h") -- move to left window
 keymap.set("n", "<C-j>", "<C-w>j") -- move to bottom window
@@ -173,5 +175,5 @@ keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
 keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
 
 keymap.set({"n","t"}, "<M-i>", "<cmd>ToggleTerm direction=float name=termFloat<CR>")
-keymap.set({"n","t"}, "<M-h>", "<cmd>ToggleTerm direction=horizontal name=termHorizontal<CR>")
+keymap.set({"n","t"}, "<M-->", "<cmd>ToggleTerm direction=horizontal name=termHorizontal<CR>")
 keymap.set({"n","t"}, "<M-v>", "<cmd>ToggleTerm direction=vertical size=70 name=termVertical<CR>")
