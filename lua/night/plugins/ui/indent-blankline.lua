@@ -38,6 +38,9 @@ return {
          whitespace = {
             remove_blankline_trail = true,
          },
+         scope = {
+            enabled = false,
+         }
       })
 
       hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
