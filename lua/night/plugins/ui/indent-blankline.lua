@@ -1,5 +1,5 @@
 return {
-   "lukas-reineke/indent-blankline.nvim",
+   "mlhktp/indent-blankline.nvim",
    config = function()
       local highlight = {
          "RainbowRed",
@@ -27,6 +27,9 @@ return {
          end
       )
       require("ibl").setup({
+         viewport_buffer = {
+            min = 500,
+         },
          indent = {
             highlight = highlight,
             char = "▏",
