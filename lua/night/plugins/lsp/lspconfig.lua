@@ -40,11 +40,11 @@ return {
                })
             end
 
-            if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-               map('<leader>th', function()
-                  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-               end, '[T]oggle Inlay [H]ints')
-            end
+            -- if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+            --    keymap('<leader>th', function()
+            --       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+            --    end, '[T]oggle Inlay [H]ints')
+            -- end
          end
       })
 
@@ -59,92 +59,63 @@ return {
             severity = nil,
             source = "always",
          },
-         signs = true,
+         signs = {
+            text = {
+               [vim.diagnostic.severity.ERROR] = " ",
+               [vim.diagnostic.severity.WARN]  = " ",
+               [vim.diagnostic.severity.INFO]  = " ",
+               [vim.diagnostic.severity.HINT]  = "󰠠 ",
+            },
+         },
          underline = true,
          update_in_insert = false,
          severity_sort = true,
       })
 
-      -- Change the Diagnostic symbols in the sign column (gutter)
-      local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-      for type, icon in pairs(signs) do
-         local hl = "DiagnosticSign" .. type
-         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-      end
+      mason_lspconfig.setup({})
 
-      mason_lspconfig.setup_handlers({
-         -- default handler for installed servers
-         function(server_name)
-            lspconfig[server_name].setup({
-               capabilities = capabilities,
-            })
-         end,
-         ["svelte"] = function()
-            -- configure svelte server
+      local servers = mason_lspconfig.get_installed_servers()
+      for _, server_name in ipairs(servers) do
+         if server_name == "svelte" then
             lspconfig["svelte"].setup({
                capabilities = capabilities,
                on_attach = function(client, bufnr)
                   vim.api.nvim_create_autocmd("BufWritePost", {
                      pattern = { "*.js", "*.ts" },
                      callback = function(ctx)
-                        -- Here use ctx.match instead of ctx.file
                         client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
                      end,
                   })
                end,
             })
-         end,
-
-         ["graphql"] = function()
-            -- configure graphql language server
+         elseif server_name == "graphql" then
             lspconfig["graphql"].setup({
                capabilities = capabilities,
                filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
             })
-         end,
-         ["emmet_ls"] = function()
-            -- configure emmet language server
+         elseif server_name == "emmet_ls" then
             lspconfig["emmet_ls"].setup({
                capabilities = capabilities,
                filetypes = {
-                  "html",
-                  "typescriptreact",
-                  "javascriptreact",
-                  "css",
-                  "sass",
-                  "scss",
-                  "less",
-                  "svelte",
+                  "html", "typescriptreact", "javascriptreact",
+                  "css", "sass", "scss", "less", "svelte",
                },
             })
-         end,
-         ["lua_ls"] = function()
-            -- configure lua server (with special settings)
+         elseif server_name == "lua_ls" then
             lspconfig["lua_ls"].setup({
                capabilities = capabilities,
                settings = {
                   Lua = {
-                     -- make the language server recognize "vim" global
-                     diagnostics = {
-                        globals = { "vim" },
-                     },
-                     completion = {
-                        callSnippet = "Replace",
-                     },
+                     diagnostics = { globals = { "vim" } },
+                     completion = { callSnippet = "Replace" },
                   },
                },
             })
-         end,
-         -- ["matlab_ls"] = function()
-         --    lspconfig["matlab_ls"].setup({
-         --       filetypes = { "matlab" },
-         --       settings = {
-         --          matlab = {
-         --             installPath = "/usr/local/MATLAB/R2024b/",
-         --          },
-         --       },
-         --    })
-         -- end,
-      })
+         else
+            lspconfig[server_name].setup({
+               capabilities = capabilities,
+            })
+         end
+      end
    end,
 }

@@ -1,5 +1,5 @@
 return {
-   "mlhktp/indent-blankline.nvim",
+   "lukas-reineke/indent-blankline.nvim",
    config = function()
       local highlight = {
          "RainbowRed",

@@ -87,11 +87,40 @@ return {
          },
          window = {
             position = "left",
-            width = 30,
+            width = 40,
             mapping_options = {
                noremap = true,
                nowait = true,
             },
+            mappings = {
+              ["/"]    = "reset_and_filter", -- ← change from "fuzzy_finder"
+              ["<cr>"] = "open_and_clear_filter"         -- Open the focused file
+            },
+            fuzzy_finder_mappings = {
+              ["<cr>"] = "done",         -- Confirm filter and return to tree
+              ["<esc>"] = "close",       -- Exit filter mode
+              ["<c-n>"] = "move_cursor_down",
+              ["<c-p>"] = "move_cursor_up",
+            },
+         },
+         commands = {
+           -- open the node, then wipe the current filter
+           open_and_clear_filter = function(state)
+             local node  = state.tree:get_node()
+             local cmds  = require("neo-tree.sources.filesystem.commands")
+
+             cmds.open(state)                -- built-in open / toggle
+
+             if node and node.type == "file" then
+               cmds.clear_filter(state)      -- only wipe filter for files
+             end
+           end,
+           -- clear any existing filter, then start a new one
+           reset_and_filter = function(state)
+             local cmds = require("neo-tree.sources.filesystem.commands")
+             cmds.clear_filter(state)       -- ensure no old filter remains
+             cmds.filter_on_submit(state)   -- built-in “sticky” filter prompt
+           end,
          },
       })
    end,
