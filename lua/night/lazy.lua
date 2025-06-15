@@ -16,6 +16,7 @@ require("lazy").setup({
    { import = "night.plugins.lsp" },
    { import = "night.plugins.ui" },
    { import = "night.plugins.git" },
+   { import = "night.plugins.verilog" },
 }, {
       install = {
          colorscheme = { "tokyonight-storm" },
