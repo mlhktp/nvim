@@ -28,12 +28,88 @@ return {
    },
    config = function()
       require("neo-tree").setup({
+         sources = {
+            "filesystem",
+            "git_status",
+            "verilog_hierarchy",
+         },
+
+         verilog_hierarchy = {                    -- source‑specific settings
+            obj_dir        = "obj_dir",           -- path to your Verilator output
+            file_pattern   = "*_final.tree.json", -- glob to load
+            -- you may supply several patterns:
+            -- file_pattern = { "*_final.tree.json", "*.tree.json" },
+            show_addresses = false, -- set true if you want Verilator addr
+            window         = {
+               mappings = {
+                  ["<Enter>"]       = "toggle_node",
+                  ["<C-Enter>"]     = "open_module",   -- Ctrl-Enter → go to module def
+                  ["<2-LeftMouse>"] = "toggle_node",   -- double click → module def
+                  ["<S-Enter>"]     = "open_instance", -- Shift-Enter → go to inst site
+                  ["<C-LeftMouse>"] = "open_module", -- Ctrl-Click → module def
+                  ["<S-LeftMouse"] = "open_instance", -- Shift-Click → inst site
+               },
+               position = "left",
+               width = 80,
+               mapping_options = {
+                  noremap = true,
+                  nowait = true,
+               },
+            },
+
+            renderers      = {
+               directory = {
+                  { "indent" },
+                  { "icon" },
+                  { "current_filter" },
+                  {
+                     "container",
+                     content = {
+                        { "name",          zindex = 10 },
+                        {
+                           "symlink_target",
+                           zindex = 10,
+                           highlight = "NeoTreeSymbolicLinkTarget",
+                        },
+                        { "clipboard",     zindex = 10 },
+                        { "diagnostics",   errors_only = true, zindex = 20,     align = "right",          hide_when_expanded = true },
+                        { "git_status",    zindex = 10,        align = "right", hide_when_expanded = true },
+                        { "created",       zindex = 10,        align = "right" },
+                     },
+                  },
+               },
+               file = {
+                  { "indent" },
+                  { "icon" },
+                  {
+                     "container",
+                     content = {
+                        {
+                           "name",
+                           zindex = 10
+                        },
+                        {
+                           "symlink_target",
+                           zindex = 10,
+                           highlight = "NeoTreeSymbolicLinkTarget",
+                        },
+                        { "clipboard",     zindex = 10 },
+                        { "bufnr",         zindex = 10 },
+                        { "modified",      zindex = 20, align = "right" },
+                        { "diagnostics",   zindex = 20, align = "right" },
+                        { "git_status",    zindex = 10, align = "right" },
+                        { "created",       zindex = 10, align = "right" },
+                     },
+                  },
+               },
+            },
+         },
 
          filesystem = {
             filtered_items = {
-               visible = false, -- Show hidden files
-               hide_dotfiles = false, -- Don't hide dotfiles (e.g., .config)
-               hide_gitignored = false, -- Show Git-ignored files
+               visible = false,           -- Show hidden files
+               hide_dotfiles = false,     -- Don't hide dotfiles (e.g., .config)
+               hide_gitignored = false,   -- Show Git-ignored files
                hide_by_name = { ".git" }, -- Explicitly hide `.git` folder
             },
          },
@@ -93,34 +169,34 @@ return {
                nowait = true,
             },
             mappings = {
-              ["/"]    = "reset_and_filter", -- ← change from "fuzzy_finder"
-              ["<cr>"] = "open_and_clear_filter"         -- Open the focused file
+               ["/"]    = "reset_and_filter",     -- ← change from "fuzzy_finder"
+               ["<cr>"] = "open_and_clear_filter" -- Open the focused file
             },
             fuzzy_finder_mappings = {
-              ["<cr>"] = "done",         -- Confirm filter and return to tree
-              ["<esc>"] = "close",       -- Exit filter mode
-              ["<c-n>"] = "move_cursor_down",
-              ["<c-p>"] = "move_cursor_up",
+               ["<cr>"] = "done",   -- Confirm filter and return to tree
+               ["<esc>"] = "close", -- Exit filter mode
+               ["<c-n>"] = "move_cursor_down",
+               ["<c-p>"] = "move_cursor_up",
             },
          },
          commands = {
-           -- open the node, then wipe the current filter
-           open_and_clear_filter = function(state)
-             local node  = state.tree:get_node()
-             local cmds  = require("neo-tree.sources.filesystem.commands")
+            -- open the node, then wipe the current filter
+            open_and_clear_filter = function(state)
+               local node = state.tree:get_node()
+               local cmds = require("neo-tree.sources.filesystem.commands")
 
-             cmds.open(state)                -- built-in open / toggle
+               cmds.open(state) -- built-in open / toggle
 
-             if node and node.type == "file" then
-               cmds.clear_filter(state)      -- only wipe filter for files
-             end
-           end,
-           -- clear any existing filter, then start a new one
-           reset_and_filter = function(state)
-             local cmds = require("neo-tree.sources.filesystem.commands")
-             cmds.clear_filter(state)       -- ensure no old filter remains
-             cmds.filter_on_submit(state)   -- built-in “sticky” filter prompt
-           end,
+               if node and node.type == "file" then
+                  cmds.clear_filter(state) -- only wipe filter for files
+               end
+            end,
+            -- clear any existing filter, then start a new one
+            reset_and_filter = function(state)
+               local cmds = require("neo-tree.sources.filesystem.commands")
+               cmds.clear_filter(state)     -- ensure no old filter remains
+               cmds.filter_on_submit(state) -- built-in “sticky” filter prompt
+            end,
          },
       })
    end,

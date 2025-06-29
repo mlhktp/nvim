@@ -175,9 +175,16 @@ keymap.set("n", "<A-0>", ":BufferGoto 0<CR>")
 
 keymap.set("n", "<A-h>", "g^") -- move to beginning of line
 keymap.set("n", "<A-l>", "g$") -- move to end of line
+keymap.set("v", "<A-h>", "^") -- move to beginning of line
+keymap.set("v", "<A-l>", "$") -- move to end of line
 
-keymap.set("n", "<A-e>", "<cmd>Neotree toggle<CR>") -- toggle file explorer
 
 keymap.set("n", "<A-p>", "<Plug>ReplaceWithRegisterOperatoriw", { noremap = false })
 keymap.set("n", "<A-[>", "<Plug>ReplaceWithRegisterOperator")
 keymap.set("v", "<A-p>", "<Plug>ReplaceWithRegisterVisual")
+
+
+keymap.set("n", "<A-e>", "<cmd>Neotree left toggle<CR>") -- toggle file explorer
+keymap.set("n", "<A-S-e>", "<cmd>Neotree float toggle<CR>") -- toggle file explorer
+keymap.set("n", "<A-r>", "<cmd>Neotree verilog_hierarchy left toggle<CR>", { desc = "Toggle Verilog hierarchy in Neo-tree" })
+keymap.set("n", "<A-S-r>", "<cmd>Neotree verilog_hierarchy float toggle<CR>", { desc = "Toggle Flot Verilog hierarchy in Neo-tree" })
