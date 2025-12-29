@@ -3,7 +3,7 @@ return {
    event = { "BufReadPre", "BufNewFile" },
    config = function()
       -- import lspconfig plugin
-      local lspconfig = require("lspconfig")
+      -- local lspconfig = require("lspconfig")
 
       -- import mason_lspconfig plugin
       local mason_lspconfig = require("mason-lspconfig")
@@ -74,48 +74,48 @@ return {
 
       mason_lspconfig.setup({})
 
-      local servers = mason_lspconfig.get_installed_servers()
-      for _, server_name in ipairs(servers) do
-         if server_name == "svelte" then
-            lspconfig["svelte"].setup({
-               capabilities = capabilities,
-               on_attach = function(client, bufnr)
-                  vim.api.nvim_create_autocmd("BufWritePost", {
-                     pattern = { "*.js", "*.ts" },
-                     callback = function(ctx)
-                        client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-                     end,
-                  })
-               end,
-            })
-         elseif server_name == "graphql" then
-            lspconfig["graphql"].setup({
-               capabilities = capabilities,
-               filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-            })
-         elseif server_name == "emmet_ls" then
-            lspconfig["emmet_ls"].setup({
-               capabilities = capabilities,
-               filetypes = {
-                  "html", "typescriptreact", "javascriptreact",
-                  "css", "sass", "scss", "less", "svelte",
-               },
-            })
-         elseif server_name == "lua_ls" then
-            lspconfig["lua_ls"].setup({
-               capabilities = capabilities,
-               settings = {
-                  Lua = {
-                     diagnostics = { globals = { "vim" } },
-                     completion = { callSnippet = "Replace" },
-                  },
-               },
-            })
-         else
-            lspconfig[server_name].setup({
-               capabilities = capabilities,
-            })
-         end
-      end
+      -- local servers = mason_lspconfig.get_installed_servers()
+      -- for _, server_name in ipairs(servers) do
+      --    if server_name == "svelte" then
+      --       lspconfig["svelte"].setup({
+      --          capabilities = capabilities,
+      --          on_attach = function(client, bufnr)
+      --             vim.api.nvim_create_autocmd("BufWritePost", {
+      --                pattern = { "*.js", "*.ts" },
+      --                callback = function(ctx)
+      --                   client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+      --                end,
+      --             })
+      --          end,
+      --       })
+      --    elseif server_name == "graphql" then
+      --       lspconfig["graphql"].setup({
+      --          capabilities = capabilities,
+      --          filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+      --       })
+      --    elseif server_name == "emmet_ls" then
+      --       lspconfig["emmet_ls"].setup({
+      --          capabilities = capabilities,
+      --          filetypes = {
+      --             "html", "typescriptreact", "javascriptreact",
+      --             "css", "sass", "scss", "less", "svelte",
+      --          },
+      --       })
+      --    elseif server_name == "lua_ls" then
+      --       lspconfig["lua_ls"].setup({
+      --          capabilities = capabilities,
+      --          settings = {
+      --             Lua = {
+      --                diagnostics = { globals = { "vim" } },
+      --                completion = { callSnippet = "Replace" },
+      --             },
+      --          },
+      --       })
+      --    else
+      --       lspconfig[server_name].setup({
+      --          capabilities = capabilities,
+      --       })
+      --    end
+      -- end
    end,
 }

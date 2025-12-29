@@ -17,13 +17,13 @@ function setup_systemverilog.setupLsp()
       debounce_text_changes = 150,
    }
 
-   require'lspconfig'.verible.setup {
+   vim.lsp.config('verible', {
       on_attach = on_attach,
       flags = lsp_flags,
       format_on_save = false,
       cmd = { 'verible-verilog-ls', '--rules_config_search', '--indentation_spaces=3', '--column_limit=200' },
-      root_dir = require('lspconfig').util.root_pattern({'.git', 'verilator.f'}),
-   }
+      root_markers = {'.git', 'verilator.f'},
+   })
 end
 
 function setup_systemverilog.setupLinter(lint)
