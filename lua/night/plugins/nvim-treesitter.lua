@@ -5,7 +5,6 @@ return {
       build = ":TSUpdate",
       dependencies = {
          "windwp/nvim-ts-autotag",
-         "p00f/nvim-ts-rainbow",
       },
       opts = {
             highlight = {
@@ -73,12 +72,7 @@ return {
             --},
       },
       config = function(_, opts)
-         -- import nvim-treesitter plugin
-         local treesitter = require("nvim-treesitter.configs")
-         require'night.config.setup_systemverilog'.setupTreesitter(opts)
-
-         -- configure treesitter
-         treesitter.setup(opts)
+         require("night.config.setup_systemverilog").setupTreesitter(opts)
       end,
    },
 }
