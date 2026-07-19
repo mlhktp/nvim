@@ -1,0 +1,5 @@
+require("keymaps.general")
+require("keymaps.lsp")
+require("keymaps.git")
+require("keymaps.plugins")
+require("keymaps.terminal")

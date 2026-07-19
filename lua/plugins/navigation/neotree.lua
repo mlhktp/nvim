@@ -1,0 +1,209 @@
+return {
+   "nvim-neo-tree/neo-tree.nvim",
+   branch = "v3.x",
+   dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      "3rd/image.nvim",
+      {
+         "s1n7ax/nvim-window-picker",
+         version = "2.*",
+         config = function()
+            require("window-picker").setup({
+               filter_rules = {
+                  include_current_win = false,
+                  autoselect_one = true,
+                  -- filter using buffer options
+                  bo = {
+                     -- if the file type is one of following, the window will be ignored
+                     filetype = { "neo-tree", "neo-tree-popup", "notify" },
+                     -- if the buffer type is one of following, the window will be ignored
+                     buftype = { "terminal", "quickfix" },
+                  },
+               },
+            })
+         end,
+      },
+   },
+   config = function()
+      require("neo-tree").setup({
+         sources = {
+            "filesystem",
+            "git_status",
+            "verilog_hierarchy",
+         },
+
+         verilog_hierarchy = { -- source‑specific settings
+            obj_dir = "obj_dir", -- path to your Verilator output
+            file_pattern = "*_final.tree.json", -- glob to load
+            -- you may supply several patterns:
+            -- file_pattern = { "*_final.tree.json", "*.tree.json" },
+            show_addresses = false, -- set true if you want Verilator addr
+            window = {
+               mappings = {
+                  ["<Enter>"] = "toggle_node",
+                  ["<C-Enter>"] = "open_module", -- Ctrl-Enter → go to module def
+                  ["<2-LeftMouse>"] = "toggle_node", -- double click → module def
+                  ["<S-Enter>"] = "open_instance", -- Shift-Enter → go to inst site
+                  ["<C-LeftMouse>"] = "open_module", -- Ctrl-Click → module def
+                  ["<S-LeftMouse"] = "open_instance", -- Shift-Click → inst site
+               },
+               position = "left",
+               width = 80,
+               mapping_options = {
+                  noremap = true,
+                  nowait = true,
+               },
+            },
+
+            renderers = {
+               directory = {
+                  { "indent" },
+                  { "icon" },
+                  { "current_filter" },
+                  {
+                     "container",
+                     content = {
+                        { "name", zindex = 10 },
+                        {
+                           "symlink_target",
+                           zindex = 10,
+                           highlight = "NeoTreeSymbolicLinkTarget",
+                        },
+                        { "clipboard", zindex = 10 },
+                        {
+                           "diagnostics",
+                           errors_only = true,
+                           zindex = 20,
+                           align = "right",
+                           hide_when_expanded = true,
+                        },
+                        { "git_status", zindex = 10, align = "right", hide_when_expanded = true },
+                        { "created", zindex = 10, align = "right" },
+                     },
+                  },
+               },
+               file = {
+                  { "indent" },
+                  { "icon" },
+                  {
+                     "container",
+                     content = {
+                        {
+                           "name",
+                           zindex = 10,
+                        },
+                        {
+                           "symlink_target",
+                           zindex = 10,
+                           highlight = "NeoTreeSymbolicLinkTarget",
+                        },
+                        { "clipboard", zindex = 10 },
+                        { "bufnr", zindex = 10 },
+                        { "modified", zindex = 20, align = "right" },
+                        { "diagnostics", zindex = 20, align = "right" },
+                        { "git_status", zindex = 10, align = "right" },
+                        { "created", zindex = 10, align = "right" },
+                     },
+                  },
+               },
+            },
+         },
+
+         filesystem = {
+            filtered_items = {
+               visible = false, -- Show hidden files
+               hide_dotfiles = false, -- Don't hide dotfiles (e.g., .config)
+               hide_gitignored = false, -- Show Git-ignored files
+               hide_by_name = { ".git" }, -- Explicitly hide `.git` folder
+            },
+         },
+         container = {
+            enable_character_fade = true,
+         },
+         source_selector = {
+            winbar = false,
+            statusline = false,
+         },
+         popup_border_style = "rounded",
+         enable_git_status = true,
+         enable_diagnostics = false,
+         icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "󰜌",
+            default = "*",
+            highlight = "NeoTreeFileIcon",
+         },
+         git_status = {
+            symbols = {
+               -- Change type
+               added = "+", -- or "✚", but this is redundant info if you use git_status_colors on the name
+               modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+               deleted = "✖",
+               -- this can only be used in the git_status source
+               renamed = "󰁕",
+               -- this can only be used in the git_status source
+               -- Status type
+               untracked = "",
+               ignored = "",
+               unstaged = "󰄱",
+               staged = "",
+               conflict = "",
+            },
+         },
+         indent = {
+            indent_size = 2,
+            padding = 1, -- extra padding on left hand side
+            -- indent guides
+            with_markers = true,
+            indent_marker = "│",
+            last_indent_marker = "└",
+            highlight = "NeoTreeIndentMarker",
+            -- expander config, needed for nesting files
+            with_expanders = nil, -- if nil and file nesting is enabled, will enable expanders
+            expander_collapsed = "",
+            expander_expanded = "",
+            expander_highlight = "NeoTreeExpander",
+         },
+         window = {
+            position = "left",
+            width = 40,
+            mapping_options = {
+               noremap = true,
+               nowait = true,
+            },
+            mappings = {
+               ["/"] = "reset_and_filter", -- ← change from "fuzzy_finder"
+               ["<cr>"] = "open_and_clear_filter", -- Open the focused file
+            },
+            fuzzy_finder_mappings = {
+               ["<cr>"] = "done", -- Confirm filter and return to tree
+               ["<esc>"] = "close", -- Exit filter mode
+               ["<c-n>"] = "move_cursor_down",
+               ["<c-p>"] = "move_cursor_up",
+            },
+         },
+         commands = {
+            -- open the node, then wipe the current filter
+            open_and_clear_filter = function(state)
+               local node = state.tree:get_node()
+               local cmds = require("neo-tree.sources.filesystem.commands")
+
+               cmds.open(state) -- built-in open / toggle
+
+               if node and node.type == "file" then
+                  cmds.clear_filter(state) -- only wipe filter for files
+               end
+            end,
+            -- clear any existing filter, then start a new one
+            reset_and_filter = function(state)
+               local cmds = require("neo-tree.sources.filesystem.commands")
+               cmds.clear_filter(state) -- ensure no old filter remains
+               cmds.filter_on_submit(state) -- built-in “sticky” filter prompt
+            end,
+         },
+      })
+   end,
+}
