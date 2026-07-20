@@ -1,20 +1,10 @@
 local harpoon = require("harpoon")
+local harpoon_tabline = require("ui.harpoon_tabline")
 
 harpoon:setup()
 
 local function refresh_harpoon_tabline()
-   vim.schedule(function()
-      local ok, lualine = pcall(require, "lualine")
-
-      if ok then
-         lualine.refresh({
-            place = { "tabline" },
-            force = true,
-         })
-      end
-
-      vim.cmd("redrawtabline")
-   end)
+   harpoon_tabline.refresh()
 end
 
 ------------------------------------------------------------------------
@@ -50,13 +40,6 @@ local function compact_harpoon_list(list)
    end
 end
 
-local function remove_current_harpoon_item()
-   local list = harpoon:list()
-
-   list:remove()
-   compact_harpoon_list(list)
-end
-
 local function normalize_path(path)
    if not path or path == "" then
       return ""
@@ -81,6 +64,20 @@ local function get_current_harpoon_index(list)
    return nil
 end
 
+local function remove_harpoon_item_at(index)
+   local list = harpoon:list()
+
+   if not list:get(index) then
+      return false
+   end
+
+   list:remove_at(index)
+   compact_harpoon_list(list)
+   refresh_harpoon_tabline()
+
+   return true
+end
+
 local function remove_current_harpoon_item()
    local list = harpoon:list()
    local removed_index = get_current_harpoon_index(list)
@@ -89,8 +86,7 @@ local function remove_current_harpoon_item()
       return false
    end
 
-   list:remove_at(removed_index)
-   compact_harpoon_list(list)
+   remove_harpoon_item_at(removed_index)
 
    local remaining = list:length()
 
@@ -305,4 +301,3 @@ vim.schedule(function()
    compact_harpoon_list(harpoon:list())
    refresh_harpoon_tabline()
 end)
-
