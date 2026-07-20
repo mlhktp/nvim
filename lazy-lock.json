@@ -53,7 +53,7 @@
   "prettier.nvim": { "branch": "main", "commit": "ca6452de1accc68a1062e72f58679caa488b501a" },
   "qmake-syntax-vim": { "branch": "master", "commit": "d71975f8e0e88e0b9683abf7f57da102b402865c" },
   "render-markdown.nvim": { "branch": "main", "commit": "f422cb5c6855f150e2ddcfaf44e7157b98b34f6a" },
-  "rust-analyzer": { "branch": "master", "commit": "081ddc9c1d9cba0b67f72ec3c4b45186d039c28c" },
+  "rust-analyzer": { "branch": "master", "commit": "af1fe01c98cfb006b3e12bcca4941551f1c96273" },
   "rust-tools.nvim": { "branch": "master", "commit": "676187908a1ce35ffcd727c654ed68d851299d3e" },
   "rust.vim": { "branch": "master", "commit": "889b9a7515db477f4cb6808bef1769e53493c578" },
   "solarized-osaka.nvim": { "branch": "main", "commit": "f675d9a5c58f3b0d6158d665a623f81a62e7bdaf" },
