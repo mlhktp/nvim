@@ -32,6 +32,34 @@ opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
+-- Keep the number and sign columns transparent across colorscheme changes.
+vim.api.nvim_create_autocmd("ColorScheme", {
+   callback = function()
+      local groups = {
+         "LineNr",
+         "CursorLineNr",
+         "LineNrAbove",
+         "LineNrBelow",
+         "SignColumn",
+         "CursorLineSign",
+         "GitSignsAdd",
+         "GitSignsChange",
+         "GitSignsDelete",
+         "GitSignsTopdelete",
+         "GitSignsChangedelete",
+         "GitSignsUntracked",
+      }
+
+      for _, group in ipairs(groups) do
+         local highlight = vim.api.nvim_get_hl(0, { name = group, link = false })
+         highlight.bg = nil
+         vim.api.nvim_set_hl(0, group, highlight)
+      end
+   end,
+})
+
+
+
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
