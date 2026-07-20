@@ -1,5 +1,7 @@
 local M = {}
 
+local harpoon_history = require("config.harpoon_history")
+
 local click_handlers = {}
 local close_handlers = {}
 
@@ -24,25 +26,6 @@ end
 
 local function color(group, attribute)
    return highlight(group)[attribute]
-end
-
-local function compact(list)
-   local displayed = {}
-   local has_holes = false
-
-   for index = 1, list:length() do
-      local item = list:get(index)
-
-      if item then
-         displayed[#displayed + 1] = list.config.display(item)
-      else
-         has_holes = true
-      end
-   end
-
-   if has_holes then
-      list:resolve_displayed(displayed, #displayed)
-   end
 end
 
 local function buffer_for_path(path)
@@ -257,8 +240,7 @@ function M.render()
          end
 
          close_handlers[item_index] = function()
-            list:remove_at(item_index)
-            compact(list)
+            harpoon_history.remove(list, item_index)
 
             if list:length() > 0 then
                list:select(math.max(1, item_index - 1))

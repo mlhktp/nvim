@@ -1,43 +1,11 @@
 local harpoon = require("harpoon")
+local harpoon_history = require("config.harpoon_history")
 local harpoon_tabline = require("ui.harpoon_tabline")
 
 harpoon:setup()
 
 local function refresh_harpoon_tabline()
    harpoon_tabline.refresh()
-end
-
-------------------------------------------------------------------------
--- Compact Harpoon
---
--- Harpoon normally leaves nil slots after removing an item:
---
---   1 2 3 4 5
---       remove 3
---   1 2 _ 4 5
---
--- This converts it to:
---
---   1 2 3 4
-------------------------------------------------------------------------
-
-local function compact_harpoon_list(list)
-   local displayed = {}
-   local has_holes = false
-
-   for index = 1, list:length() do
-      local item = list:get(index)
-
-      if item then
-         displayed[#displayed + 1] = list.config.display(item)
-      else
-         has_holes = true
-      end
-   end
-
-   if has_holes then
-      list:resolve_displayed(displayed, #displayed)
-   end
 end
 
 local function normalize_path(path)
@@ -71,8 +39,7 @@ local function remove_harpoon_item_at(index)
       return false
    end
 
-   list:remove_at(index)
-   compact_harpoon_list(list)
+   harpoon_history.remove(list, index)
    refresh_harpoon_tabline()
 
    return true
@@ -127,6 +94,14 @@ vim.keymap.set("n", "<C-q>", function()
    remove_current_harpoon_item()
 end, {
    desc = "Remove current file from Harpoon",
+})
+
+vim.keymap.set("n", "<C-m>", function()
+   if harpoon_history.restore(harpoon:list()) then
+      refresh_harpoon_tabline()
+   end
+end, {
+   desc = "Reopen last closed Harpoon tab",
 })
 
 for index = 1, 9 do
@@ -298,6 +273,6 @@ end, {
 ------------------------------------------------------------------------
 
 vim.schedule(function()
-   compact_harpoon_list(harpoon:list())
+   harpoon_history.compact(harpoon:list())
    refresh_harpoon_tabline()
 end)
