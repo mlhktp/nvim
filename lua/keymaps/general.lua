@@ -15,17 +15,7 @@ map("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
 map("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })
 map("n", "<leader>se", "<C-w>=", { desc = "Equalize window sizes" })
 
-map("n", "<leader>nt", "<cmd>tabnew<CR>", { desc = "New tab" })
-map("n", "<leader>tn", "<cmd>tabnext<CR>", { desc = "Next tab" })
-map("n", "<leader>tp", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
-map("n", "<C-q>", "<cmd>BufferClose<CR>", { desc = "Close buffer" })
-map("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
-map("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
 
-for index = 1, 9 do
-   map("n", "<C-" .. index .. ">", "<cmd>BufferGoto " .. index .. "<CR>", { desc = "Go to buffer " .. index })
-end
-map("n", "<C-0>", "<cmd>BufferGoto 0<CR>", { desc = "Go to last buffer" })
 
 map("v", ">", ">gv", { desc = "Indent selection" })
 map("v", "<", "<gv", { desc = "Unindent selection" })

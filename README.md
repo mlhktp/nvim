@@ -55,6 +55,15 @@ Review a script before running it because it installs system packages. The Ubunt
 - Run `:Mason` to inspect external development tools.
 - Run `:checkhealth` after changing plugin or language-tool configuration.
 
+## Wakapi dashboard
+
+The start screen shows 13 weeks of coding activity from Wakapi. It reads the
+`api_url` and `api_key` directly from `~/.wakatime.cfg`, so no credentials are
+stored in this repository.
+
+The last successful report is cached for offline starts. Use `:WakapiRefresh` or
+`:WeatherRefresh` to refresh the activity or Karlsruhe weather manually.
+
 ## Credits
 
 Originally based on [nighty3098/nvim](https://github.com/nighty3098/nvim).
