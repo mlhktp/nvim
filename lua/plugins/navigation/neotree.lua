@@ -37,7 +37,7 @@ return {
                visible = false, -- Show hidden files
                hide_dotfiles = false, -- Don't hide dotfiles (e.g., .config)
                hide_gitignored = false, -- Show Git-ignored files
-               hide_by_name = { ".git" }, -- Explicitly hide `.git` folder
+               hide_by_name = { ".git", ".DS_Store" }, -- Explicitly hide system metadata
             },
          },
          container = {
