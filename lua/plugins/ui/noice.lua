@@ -1,5 +1,6 @@
 return {
    "folke/noice.nvim",
+   enabled = vim.env.NVIM_RANGER ~= "1",
    event = "VeryLazy",
    opts = {},
    dependencies = {

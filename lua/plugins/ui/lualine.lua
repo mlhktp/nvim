@@ -1,7 +1,7 @@
 return {
    "nvim-lualine/lualine.nvim",
    event = "VeryLazy",
-
+   enabled = vim.env.NVIM_RANGER ~= "1",
    dependencies = {
       "nvim-tree/nvim-web-devicons",
       {
