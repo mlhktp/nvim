@@ -12,7 +12,6 @@ return {
          typescriptreact = { "eslint_d" },
          svelte = { "eslint_d" },
          cpp = { "cpplint" },
-         python = { "pylint" },
          css = { "stylelint" },
          html = { "htmlhint" },
       }
