@@ -31,6 +31,7 @@ opt.cursorline = true -- highlight the current cursor line
 opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+opt.fillchars:append({ eob = " " }) -- hide ~ lines after the end of the buffer
 
 -- Keep the number and sign columns transparent across colorscheme changes.
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -90,3 +91,12 @@ vim.g.vimtex_view_method = "zathura"
 -- Let `zen-mode` or toggle commands manage that.
 -- Leave this commented unless intentional:
 -- vim.diagnostic.enable(false)
+vim.opt.cursorline = false
+
+if vim.env.NVIM_RANGER == "1" then
+   vim.opt.number = false
+   vim.opt.relativenumber = false
+   vim.opt.cursorline = false
+   vim.opt.laststatus = 0
+   vim.opt.showtabline = 0
+end
